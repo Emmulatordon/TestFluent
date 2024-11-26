@@ -1,0 +1,105 @@
+﻿@implements IDialogContentComponent<dog>
+
+
+<p>Dialog without content </p>
+<div class="mb-3 row">
+    <label for="RegisteredClassId" class="col-sm-2 col-form-label">Class</label>
+    <div class="col-sm-10">
+        <select class="form-select" id="RegisteredClassId" name="RegisteredClassId" required>
+            <option selected disabled value="">Select Class</option>
+            <option value="1">Class 1</option>
+            <option value="2">Class 2</option>
+            <option value="3">Class 3</option>
+            <!-- Add more options as needed -->
+        </select>
+        <div class="invalid-feedback">
+            Please select a class.
+        </div>
+    </div>
+</div>
+<div class="mb-3 row">
+    <label for="RegisteredClassId" class="col-sm-2 col-form-label">Class</label>
+    <div class="col-sm-10">
+        <select class="form-select" id="RegisteredClassId" name="RegisteredClassId" required>
+            <option selected disabled value="">Select Class</option>
+            <option value="1">Class 1</option>
+            <option value="2">Class 2</option>
+            <option value="3">Class 3</option>
+            <!-- Add more options as needed -->
+        </select>
+        <div class="invalid-feedback">
+            Please select a class.
+        </div>
+    </div>
+</div>
+<div class="mb-3 row">
+    <label for="RegisteredClassId" class="col-sm-2 col-form-label">Class</label>
+    <div class="col-sm-10">
+        <select class="form-select" id="RegisteredClassId" name="RegisteredClassId" required>
+            <option selected disabled value="">Select Class</option>
+            <option value="1">Class 1</option>
+            <option value="2">Class 2</option>
+            <option value="3">Class 3</option>
+            <!-- Add more options as needed -->
+        </select>
+        <div class="invalid-feedback">
+            Please select a class.
+        </div>
+    </div>
+</div>
+<div class="mb-3 row">
+    <label for="RegisteredClassId" class="col-sm-2 col-form-label">Class</label>
+    <div class="col-sm-10">
+        <select class="form-select" id="RegisteredClassId" name="RegisteredClassId" required>
+            <option selected disabled value="">Select Class</option>
+            <option value="1">Class 1</option>
+            <option value="2">Class 2</option>
+            <option value="3">Class 3</option>
+            <!-- Add more options as needed -->
+        </select>
+        <div class="invalid-feedback">
+            Please select a class.
+        </div>
+    </div>
+</div>
+<div class="mb-3 row">
+    <label for="RegisteredClassId" class="col-sm-2 col-form-label">Class</label>
+    <div class="col-sm-10">
+        <select class="form-select" id="RegisteredClassId" name="RegisteredClassId" required>
+            <option selected disabled value="">Select Class</option>
+            <option value="1">Class 1</option>
+            <option value="2">Class 2</option>
+            <option value="3">Class 3</option>
+            <!-- Add more options as needed -->
+        </select>
+        <div class="invalid-feedback">
+            Please select a class.
+        </div>
+    </div>
+</div>
+<p>@(Content.NumberOfLegs+10)</p>
+<FluentButton OnClick="@(() => AddLegs())" Appearance="Appearance.Accent">Add legs</FluentButton>
+
+@code {
+
+
+
+    [Parameter]
+
+    public dog Content { get; set; } = default!;
+
+
+
+    [CascadingParameter]
+    public FluentDialog? Dialog { get; set; }
+
+
+
+    private void AddLegs()
+    {
+
+        Content.NumberOfLegs = 25;
+
+        Dialog!.CloseAsync(Content);
+    }
+}

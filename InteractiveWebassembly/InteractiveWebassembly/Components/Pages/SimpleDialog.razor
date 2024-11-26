@@ -1,0 +1,31 @@
+﻿@implements IDialogContentComponent
+
+
+<p>Your lastname is @Name and you are Age @Age young </p>
+
+@* <FluentTextField @bind-Value="@Content.Firstname">Your firstname:</FluentTextField>
+<FluentTextField @bind-Value="@Content.Lastname">Your lastname:</FluentTextField>
+<FluentNumberField @bind-Value="@Content.Age">Your age:</FluentNumberField> *@
+
+@* @if (Dialog != null)
+{
+    <FluentStack Orientation="Orientation.Vertical" Style="border: 1px solid red; padding: 10px">
+        <span>This section is visible only when component is hosted inside a Dialog</span>
+        <FluentButton OnClick="@(() => ToggleDialogPrimaryActionButton(true))">Enable Dialog Primary Action</FluentButton>
+        <FluentButton OnClick="@(() => ToggleDialogPrimaryActionButton(false))">Disable Dialog Primary Action</FluentButton>
+    </FluentStack>
+} *@
+
+@code {
+    [Parameter]
+    public string Name { get; set; } = default!;
+    public int Age { get; set; } = default!;
+
+    // [CascadingParameter]
+    // public FluentDialog? Dialog { get; set; }
+
+    // private void ToggleDialogPrimaryActionButton(bool enable)
+    // {
+    //     Dialog!.TogglePrimaryActionButton(enable);
+    // }
+}

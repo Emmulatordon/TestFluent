@@ -1,0 +1,42 @@
+﻿@implements IDialogContentComponent<string>
+<div style="min-height: 250px;">
+    <FluentGrid>
+        <FluentGridItem>
+            <FluentSelect Label="Theme"
+                          Width="250px"
+                          Items="@(Enum.GetValues<DesignThemeModes>())"
+                          @bind-SelectedOption="@_mode" />
+        </FluentGridItem>
+
+        <FluentGridItem>
+            <FluentSelect Label="Color"
+                          Items="@(Enum.GetValues<OfficeColor>().Select(i => (OfficeColor?)i))"
+                          Height="200px"
+                          Width="250px"
+                          @bind-SelectedOption="@_color" />
+        </FluentGridItem>
+    </FluentGrid>
+    <FluentButton Appearance="Appearance.Accent" OnClick="AssignTheme">Apply</FluentButton>
+
+</div>
+
+@code
+{
+    [Parameter]
+    public string Content { get; set; }
+    private DesignThemeModes _mode;
+    private OfficeColor? _color;
+
+    [CascadingParameter]
+    public FluentDialog? Dialog { get; set; }
+    [Parameter]
+    public EventCallback<DesignThemeModes> Mode { get; set; }
+    [Parameter]
+    public EventCallback<OfficeColor?> OfficeColor { get; set; }
+    public async void AssignTheme()
+    {
+        await Mode.InvokeAsync(_mode);
+        await OfficeColor.InvokeAsync(_color);
+        await Dialog.CloseAsync();
+    }
+}

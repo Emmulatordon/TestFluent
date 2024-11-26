@@ -1,0 +1,24 @@
+﻿@rendermode InteractiveServer
+@using InteractiveWebassembly.Components.Layout
+@inject IDialogService DialogService
+
+<FluentButton OnClick="OpenPanelAsync" 
+              IconEnd="@(new Icons.Regular.Size32.Settings())" 
+              Appearance="Appearance.Accent">
+ </FluentButton>
+
+@code {
+    private async Task OpenPanelAsync()
+    {
+        DialogParameters parameters = new()
+            {
+                Title = $"Settings",
+                Alignment = HorizontalAlignment.Right,
+                Modal = true,
+                ShowDismiss = false,
+                PrimaryAction = "Ok",
+                Width = "300px",
+            };
+        await DialogService.ShowPanelAsync<SettingsPanel>(parameters);
+    }
+}

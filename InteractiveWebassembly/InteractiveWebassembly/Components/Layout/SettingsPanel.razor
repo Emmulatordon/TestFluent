@@ -1,0 +1,30 @@
+﻿@implements IDialogContentComponent
+
+<FluentDesignTheme @bind-Mode="@Mode"
+                   @bind-OfficeColor="@OfficeColor"
+                   StorageName="theme" />
+
+<div style="min-height: 250px;">
+    <FluentGrid>
+        <FluentGridItem>
+            <FluentSelect Label="Theme"
+                          Width="250px"
+                          Items="@(Enum.GetValues<DesignThemeModes>())"
+                          @bind-SelectedOption="@Mode" />
+        </FluentGridItem>
+
+        <FluentGridItem>
+            <FluentSelect Label="Color"
+                          Items="@(Enum.GetValues<OfficeColor>().Select(i => (OfficeColor?)i))"
+                          Height="200px"
+                          Width="250px"
+                          @bind-SelectedOption="@OfficeColor" />
+        </FluentGridItem>
+    </FluentGrid>
+</div>
+
+@code
+{
+    public DesignThemeModes Mode { get; set; } = DesignThemeModes.Light;
+    public OfficeColor? OfficeColor { get; set; }
+}

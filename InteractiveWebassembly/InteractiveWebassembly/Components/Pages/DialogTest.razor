@@ -1,0 +1,130 @@
+﻿@page "/dialogTest"
+@inject IDialogService DialogService
+@rendermode InteractiveServer
+
+<div>
+    <p>
+        When 'Modal' is checked, the dialog can be <em>dismissed</em> by clicking outside of the dialog (anywhere on the overlay). When unchecked,
+        the dialog can be <em>dismissed</em> only by the 'ESC' key.<br />The dialog can always be <em>closed</em> by using the 'Close dialog'
+        button.
+    </p>
+    <p>
+        When 'Trap focus' is checked, only the elements within the dialog will receive focus. When unchecked, focus will also move outside of the
+        dialog.
+    </p>
+    <p>@Age</p>
+    <FluentCheckbox Name="modal" @bind-Value="_modal">
+        Modal
+    </FluentCheckbox>
+    <FluentCheckbox Name="trap" @bind-Value="_trapFocus">
+        Trap focus
+    </FluentCheckbox>
+    <hr />
+    <p>Result:@cancelled</p>
+    <hr />
+    <p>Simple Result:@simpleCancelled</p>
+</div>
+<div style="margin-top: 1rem;">
+    <FluentButton @onclick="@OpenDialogAsync" Appearance="Appearance.Accent">
+        Open Dialog
+    </FluentButton>    
+    <FluentButton @onclick="@OpenSimpleDialogAsync" Appearance="Appearance.Accent">
+        Open Dialog
+    </FluentButton>
+</div>
+<p>Number of leges:@myDog.NumberOfLegs</p>
+<p>Number of leges:@returnDog.NumberOfLegs</p>
+<p>@customers</p>
+@foreach (var item in customers)
+{
+   <p>item</p> 
+}
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "StudentAge")]
+    public int? Age { get; set; } = 8;
+    private bool _trapFocus = true;
+    private bool cancelled = false;
+    private bool simpleCancelled = false;
+    private bool _modal = true;
+    List<string> customers;
+
+    SimplePerson simplePerson = new()
+        {
+            Firstname = "Dan",
+            Lastname = "Sanderson",
+            Age = 42,
+        };
+
+    dog myDog = new dog() { NumberOfLegs = 5 };
+    dog returnDog = new dog() { NumberOfLegs = 5 };
+
+    private async Task OpenDialogAsync()
+    {
+        Console.WriteLine($"Open dialog centered");
+
+        DialogParameters parameters = new()
+            {
+                Title = $"Hello {simplePerson.Firstname}",
+                PrimaryAction = "Yes",
+                PrimaryActionEnabled = true,
+                SecondaryAction = "No",
+                Width = "500px",
+               // Content = myDog,
+                TrapFocus = _trapFocus,
+                Modal = false,
+                PreventScroll = true
+            };
+
+        IDialogReference dialog = await DialogService.ShowDialogAsync<NoParametersDialog>(new dog() { NumberOfLegs=20},parameters);
+        DialogResult? result = await dialog.Result;
+        cancelled = result.Cancelled;
+
+
+        if (result.Data is not null)
+        {
+            dog? f = result.Data as dog;
+            returnDog = f;
+        }
+        else
+        {
+            Console.WriteLine($"Dialog closed - Canceled: {result.Cancelled}");
+        }
+    }
+
+    private async Task OpenSimpleDialogAsync()
+    {
+        Console.WriteLine($"Open dialog centered");
+
+        DialogParameters parameters = new()
+            {
+                Title = $"Hello {simplePerson.Firstname}",
+                PrimaryAction = "True",
+                PrimaryActionEnabled = true,
+                SecondaryAction = "False",
+                Width = "500px",                
+                TrapFocus = _trapFocus,
+                Modal = false,
+                PreventScroll = true,
+
+            };
+
+        IDialogReference dialog = await DialogService.ShowDialogAsync<SimpleDialog>(parameters);
+        DialogResult? result = await dialog.Result;
+        simpleCancelled = result.Cancelled;
+
+
+        // if (result.Data is not null)
+        // {
+        //     // SimplePerson? simplePerson = result.Data as SimplePerson;
+        //     // Console.WriteLine($"Dialog closed by {simplePerson?.Firstname} {simplePerson?.Lastname} ({simplePerson?.Age}) - Canceled: {result.Cancelled}");
+        // }
+        // else
+        // {
+        //     Console.WriteLine($"Dialog closed - Canceled: {result.Cancelled}");
+        // }
+    }
+
+
+}
