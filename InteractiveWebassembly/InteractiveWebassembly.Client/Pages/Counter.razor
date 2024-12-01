@@ -3,13 +3,16 @@
 
 <PageTitle>Counter</PageTitle>
 
-<h1>Counter</h1>
+<div style="border:2px solid var(--accent-base-color) !important;">
+    <h1 style="color:var(--accent-base-color) !important;">Counter</h1>
 
-<div role="status" style="padding-bottom: 1em;">
-    Current count: <FluentBadge Appearance="Appearance.Neutral">@currentCount</FluentBadge>
+    <div role="status" style="padding-bottom: 1em;">
+        Current count: <FluentBadge Appearance="Appearance.Neutral">@currentCount</FluentBadge>
+    </div>
+
+    <FluentButton Appearance="Appearance.Outline" @onclick="IncrementCount">Click me</FluentButton>
 </div>
 
-<FluentButton Appearance="Appearance.Accent" @onclick="IncrementCount">Click me</FluentButton>
 
 @code {
     private int currentCount = 0;
